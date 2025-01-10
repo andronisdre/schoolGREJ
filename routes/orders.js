@@ -44,9 +44,13 @@ router.post("/orders", (req, res) => {
     createdAt: new Date(),
   };
 
-  orders.push(order);
-  writeOrdersToFile(orders);
-  res.status(201).json(order);
+  if (order.customerId != null && order.customerId != "") {
+    orders.push(order);
+    writeOrdersToFile(orders);
+    res.status(201).json(order);
+  } else {
+    res.status(401).json({ error: "customerId must be written" });
+  }
 });
 
 // 2
